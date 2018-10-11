@@ -8,7 +8,7 @@ import React from 'react';
 
 //Using stateless Functional components
 function CurrentChoice(props){
-    return(<div>Current selection: {props.text}</div>);
+    return(<div>Current selection: {props.checked}</div>);
 }
 
 export default CurrentChoice;

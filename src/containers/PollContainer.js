@@ -3,30 +3,28 @@ import PollHeader from '../components/PollHeader.js';
 import PollQuestion from '../components/PollQuestion.js';
 import RadioButtonGroup from '../components/RadioButtonGroup.js';
 import PollSubmitButton from '../components/PollSubmitButton.js';
-import CurrentChoice from '../components/CurrentChoice.js';
 // import data from '../data/data.json';
-import CorrectChoice from '../components/CorrectChoice.js';
-import $ from 'jquery';
+import $ from 'jQuery';
 
 class PollContainer extends React.Component {
     constructor(){
         super();
         this.state = {
-            header: '',
-            question: '',
-            correctAnswer: '',
-            choices: [],
-            checkedValue: ''
+            questions: [],
+            checkedValue: [],
+            header: ''
         };
         this.setCheckedValue = this.setCheckedValue.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
     }
 
-    setCheckedValue(value){
+    setCheckedValue(name,value){
+        var newChecked = this.state.checkedValue;
+        newChecked[name] = value;
+
         this.setState({
-            checkedValue: value
+            checkedValue: newChecked
         });
-        console.log("current choice: " + value);
     }
 
     checkAnswer(){
@@ -35,40 +33,46 @@ class PollContainer extends React.Component {
         }
     }
 
-    UNSAFE_componentWillMount() {
-        console.log('componentWillMount()');
-    }
+    // UNSAFE_componentWillMount() {
+    //     console.log('componentWillMount()');
+    // }
     componentDidMount() {
         console.log('componentDidMount()');
-        this.serverRequest = $.get('http://localhost:8080/data/data.json', 
-	    function (result) {
-        var data = result;
-        this.setState({
-            header: data.poll.header,
-            question: data.poll.questions[0].question,
-            choices: data.poll.questions[0].choices,
-            correctAnswer: data.poll.questions[0].correctAnswer
-        });
+        this.serverRequest = $.get('http://localhost:8080/data/data.json', function (result) {
+            this.setState({
+                header: result.poll.header,
+                questions: result.poll.questions,
+            });
         }.bind(this));
+        // this.serverRequest = $.get('http://localhost:8080/data/data.json', 
+	    // function (result) {
+        // var data = result;
+        // this.setState({
+        //     header: data.poll.header,
+        //     question: data.poll.questions[0].question,
+        //     choices: data.poll.questions[0].choices,
+        //     correctAnswer: data.poll.questions[0].correctAnswer
+        // });
+        // }.bind(this));
 
     }
-    UNSAFE_componentWillReceiveProps() {
-        console.log('componentWillReceiveProps()');
-    }
-    shouldComponentUpdate() {
-        console.log('shouldComponentUpdate()');
-        return true;
-    }
-    UNSAFE_componentWillUpdate() {
-        console.log('componentWillUpdate()');
-    }
-    componentDidUpdate() {
-        console.log('componentDidUpdate()');
-        this.checkAnswer(this.state.checkedValue);
-    }
-    componentWillUnmount() {
-        console.log('componentWillUnmount()');
-    }
+    // UNSAFE_componentWillReceiveProps() {
+    //     console.log('componentWillReceiveProps()');
+    // }
+    // shouldComponentUpdate() {
+    //     console.log('shouldComponentUpdate()');
+    //     return true;
+    // }
+    // UNSAFE_componentWillUpdate() {
+    //     console.log('componentWillUpdate()');
+    // }
+    // componentDidUpdate() {
+    //     console.log('componentDidUpdate()');
+    //     //this.checkAnswer(this.state.checkedValue);
+    // }
+    // componentWillUnmount() {
+    //     console.log('componentWillUnmount()');
+    // }
     
 
     render() {
@@ -84,16 +88,36 @@ class PollContainer extends React.Component {
         //     {value: 'Cheese', label: 'Cheese'}
         //     ];
         
+        var {questions,checkedValue,header} = this.state;
+        var questionsOutput = questions.map(function(question,questionNumber){
+            return (
+                <div key={`question-number-${questionNumber}`}>
+                    <PollQuestion text={question.question} />
+                    <RadioButtonGroup
+                        name={questionNumber}
+                        checkedValue={checkedValue[questionNumber]}
+                        choices={question.choices}
+                        onChange = {this.setCheckedValue} />
+                    {/* <CorrectChoice
+                        checkedValue = {this.state.checkedValue}
+                        correctAnswer = {this.state.correctAnswer} /> */}
+                </div>
+            );
 
+        }.bind(this));
           
         return (
             <div className="container">
             <div className="jumbotron">
-            <PollHeader text={this.state.header} />
+            <PollHeader text={header} />
             </div>
             <div className = "row" style = {rowStyle}>
                 <div className="col-sm-4 col-sm-offset-4">  
-                    <form>
+                    <form onSubmit={this.checkAnswer}>
+                            {questionsOutput}
+                            <PollSubmitButton />
+                        </form>
+                    {/* <form>
                         <PollQuestion text={this.state.question} />
                         <RadioButtonGroup 
 	                        name='answer' 
@@ -106,7 +130,7 @@ class PollContainer extends React.Component {
                             checkedValue = {this.state.checkedValue}
                             correctAnswer = {this.state.correctAnswer} />
                         <PollSubmitButton checkAnswer = {this.checkAnswer} />
-                    </form>
+                    </form> */}
                 </div>
             </div>
             </div>
