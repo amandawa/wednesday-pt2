@@ -5,6 +5,7 @@ import RadioButtonGroup from '../components/RadioButtonGroup.js';
 import PollSubmitButton from '../components/PollSubmitButton.js';
 import CurrentChoice from '../components/CurrentChoice.js';
 // import data from '../data/data.json';
+import CorrectChoice from '../components/CorrectChoice.js';
 import $ from 'jquery';
 
 class PollContainer extends React.Component {
@@ -18,6 +19,7 @@ class PollContainer extends React.Component {
             checkedValue: ''
         };
         this.setCheckedValue = this.setCheckedValue.bind(this);
+        this.checkAnswer = this.checkAnswer.bind(this);
     }
 
     setCheckedValue(value){
@@ -27,6 +29,11 @@ class PollContainer extends React.Component {
         console.log("current choice: " + value);
     }
 
+    checkAnswer(){
+        if (this.state.checkedValue===this.state.correctAnswer){
+            console.log('correct');
+        }
+    }
 
     UNSAFE_componentWillMount() {
         console.log('componentWillMount()');
@@ -57,6 +64,7 @@ class PollContainer extends React.Component {
     }
     componentDidUpdate() {
         console.log('componentDidUpdate()');
+        this.checkAnswer(this.state.checkedValue);
     }
     componentWillUnmount() {
         console.log('componentWillUnmount()');
@@ -94,7 +102,9 @@ class PollContainer extends React.Component {
                             onChange = {this.setCheckedValue} />
                             <CurrentChoice 
                         text={this.state.checkedValue} />
-                        <PollSubmitButton />
+                        <CorrectChoice checkedValue = {this.state.checkedValue}
+                                         correctAnswer = {this.state.correctAnswer} />
+                        <PollSubmitButton checkAnswer = {this.checkAnswer} />
                     </form>
                 </div>
             </div>

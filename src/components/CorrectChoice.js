@@ -2,7 +2,10 @@ import React from 'react';
 
 //Using stateless Functional components
 function CorrectChoice(props){
-    return(<div>Correct selection: {props.text}</div>);
+    return(
+    <div>
+        {props.checkedValue === props.correctAnswer ? "Correct":"Wrong"}
+    </div>);
 }
 
 export default CorrectChoice;
