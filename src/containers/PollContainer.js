@@ -102,8 +102,9 @@ class PollContainer extends React.Component {
                             onChange = {this.setCheckedValue} />
                             <CurrentChoice 
                         text={this.state.checkedValue} />
-                        <CorrectChoice checkedValue = {this.state.checkedValue}
-                                         correctAnswer = {this.state.correctAnswer} />
+                        <CorrectChoice
+                            checkedValue = {this.state.checkedValue}
+                            correctAnswer = {this.state.correctAnswer} />
                         <PollSubmitButton checkAnswer = {this.checkAnswer} />
                     </form>
                 </div>
