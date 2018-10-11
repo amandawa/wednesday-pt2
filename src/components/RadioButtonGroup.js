@@ -2,6 +2,7 @@ import React from 'react';
 import RadioButton from './RadioButton.js';
 import PropTypes from 'prop-types';
 import CurrentChoice from './CurrentChoice';
+import CorrectChoice from './CorrectChoice';
 
 class RadioButtonGroup extends React.Component{
     
@@ -25,9 +26,9 @@ class RadioButtonGroup extends React.Component{
             <div>
                 {choiceItems}
                 <CurrentChoice checked = {this.props.checkedValue} />
-                {/* <CorrectChoice
+                <CorrectChoice
                     checkedValue = {this.props.checkedValue}
-                    correctAnswer = {this.state.correctAnswer} />  */}
+                    correctAnswer = {this.props.correctAnswer} /> 
                
             </div>
         );

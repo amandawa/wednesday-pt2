@@ -7,6 +7,8 @@ function CorrectChoice(props){
     } else {
         var c = 'red';
     }
+    console.log("checkedValue: ", props);
+    console.log("correctAnswer: ", props.correctAnswer);
     return(
     <div style={{color:c}}>
         {props.checkedValue === props.correctAnswer ? "Correct":"Wrong"}

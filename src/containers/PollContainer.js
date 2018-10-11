@@ -89,6 +89,7 @@ class PollContainer extends React.Component {
         //     ];
         
         var {questions,checkedValue,header} = this.state;
+        
         var questionsOutput = questions.map(function(question,questionNumber){
             return (
                 <div key={`question-number-${questionNumber}`}>
@@ -97,10 +98,8 @@ class PollContainer extends React.Component {
                         name={questionNumber}
                         checkedValue={checkedValue[questionNumber]}
                         choices={question.choices}
+                        correctAnswer = {question.correctAnswer}
                         onChange = {this.setCheckedValue} />
-                    {/* <CorrectChoice
-                        checkedValue = {this.state.checkedValue}
-                        correctAnswer = {this.state.correctAnswer} /> */}
                 </div>
             );
 
