@@ -1,12 +1,16 @@
 import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import RadioButton from '../src/components/RadioButton.js';
+import TestWrapper from '../src/components/TestWrapper.js';
 
 describe('Radio Button', function() {
     var component;
     beforeEach(function(){
         component = TestUtils.renderIntoDocument(
+            <TestWrapper>
             <RadioButton text="Answer 1" />
+            </TestWrapper>
+            
         );
     });
 
